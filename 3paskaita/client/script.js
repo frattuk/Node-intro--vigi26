@@ -2,7 +2,7 @@
 
 const headers = { "Access-Control-Allow-Headers": "*" };
 
-fetch("http://127.0.0.1:8080/", headers)
+fetch("http://localhost:8080/", headers)
   .then((resp) => resp.json())
   .then((response) => {
     console.log(response);
