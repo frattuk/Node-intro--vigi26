@@ -41,21 +41,49 @@ app.get("/product", async (req, res) => {
   }
 });
 
-// app.get("/categoryvalue", async (req, res) => {
-//   try {
-//     const con = await client.connect();
+app.get("/categoryvalue", async (req, res) => {
+  try {
+    const con = await client.connect();
 
-//     const data = await con
-//       .db("market")
-//       .collection("product")
-//       .find()
-//       .sort()
+    const data = await con
+      .db("market")
+      .collection("product")
+      .aggregate([
+        // { $match: {} },
+        { $group: { _id: "$title" }, total: { $sum: "$price" } },
+        {
+          $lookup: {
+            from: "categories", // kolekcija iš kurios nori imti
+            localField: "title", //  .collection("orders") property
+            foreignField: "title", // from: "customers" property
+            as: "categoryvalue", // kaip norim pavadinti savo sujungima
+          },
+        },
+      ])
+
+      // .find()
+      // .sort()
+      .toArray();
+    await con.close();
+    return res.send(data);
+  } catch (error) {
+    res.status(500).send({ error });
+  }
+});
+
+// const data = await con
+//       .db("9paskaita")
+//       .collection("orders")
+//       .aggregate([
+//         {
+//           $lookup: {
+//             from: "customers", // kolekcija iš kurios nori imti
+//             localField: "customer", //  .collection("orders") property
+//             foreignField: "name", // from: "customers" property
+//             as: "customer_details", // kaip norim pavadinti savo sujungima
+//           },
+//         },
+//       ])
 //       .toArray();
-//     await con.close();
-//     return res.send(data);
-//   } catch (error) {
-//     res.status(500).send({ error });
-//   }
-// });
 
 app.listen(port, () => console.log(`Server is running on port ${port}`));

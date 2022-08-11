@@ -1,18 +1,19 @@
 const express = require("express");
-require("dotenv").config();
 const cors = require("cors");
 const { MongoClient } = require("mongodb");
+require("dotenv").config();
+
 const app = express();
 app.use(express.json());
 app.use(cors());
-const port = process.env.PORT || 8080;
+
+const port = 3000;
 const uri = process.env.CONNECTION;
 const client = new MongoClient(uri);
 
 app.get("/pets/:order?", async (req, res) => {
   try {
     const con = await client.connect();
-
     const data = await con
       .db("8paskaita")
       .collection("pets")

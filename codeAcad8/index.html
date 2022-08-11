@@ -31,13 +31,14 @@
           <th id="age">Age (Asc)</th>
         </tr>
       </thead>
+      <tbody></tbody>
     </table>
     <script>
       let orderSelection = "asc";
       let petSelection = ["dog", "cat", "bunny"];
 
       function dataDisplay(data) {
-        const table = document.querySelector("thbody");
+        const table = document.querySelector("tbody");
         table.innerHTML = "";
 
         data.forEach((pet) => {
@@ -56,7 +57,10 @@
 
       fetch("http://localhost:3000/pets")
         .then((res) => res.json())
-        .then((data) => dataDisplay(data));
+        .then((data) => {
+          console.log(data);
+          dataDisplay(data);
+        });
 
       document.getElementById("age").addEventListener("click", (e) => {
         const text = e.target.textContent;
