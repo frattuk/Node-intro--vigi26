@@ -71,19 +71,4 @@ app.get("/categoryvalue", async (req, res) => {
   }
 });
 
-// const data = await con
-//       .db("9paskaita")
-//       .collection("orders")
-//       .aggregate([
-//         {
-//           $lookup: {
-//             from: "customers", // kolekcija iš kurios nori imti
-//             localField: "customer", //  .collection("orders") property
-//             foreignField: "name", // from: "customers" property
-//             as: "customer_details", // kaip norim pavadinti savo sujungima
-//           },
-//         },
-//       ])
-//       .toArray();
-
 app.listen(port, () => console.log(`Server is running on port ${port}`));
