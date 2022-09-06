@@ -1,6 +1,6 @@
 const express = require("express");
 const mysql = require("mysql2/promise");
-const PORT = 8080;
+const PORT = 3000;
 
 const app = express();
 app.use(express.json());
@@ -9,7 +9,7 @@ const mysqlConfig = {
   host: "mysql-vigi26-do-user-12289236-0.b.db.ondigitalocean.com",
   user: "doadmin",
   password: "AVNS_Va208HFT4DPmvBK5D83",
-  database: "defaultdb",
+  database: "products",
   port: "25060",
 };
 
@@ -23,30 +23,14 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/shirts", async (req, res) => {
+app.get("/items", async (req, res) => {
   try {
     const con = await mysql.createConnection(mysqlConfig);
+    const limit = req.query.limit;
 
-    const response = await con.execute(
-      "SELECT * FROM defaultdb.shirts ORDER BY price ASC LIMIT 3;"
-    );
-
+    const response = await con.execute(`SELECT * FROM items LIMIT ${limit}`);
     res.send(response[0]);
-    await con.end();
-  } catch (e) {
-    console.log(e);
-  }
-});
 
-app.post("/shirts", async (req, res) => {
-  try {
-    const con = await mysql.createConnection(mysqlConfig);
-
-    const response = await con.execute(
-      `INSERT INTO shirts (brand, model, size, price) values ('${req.body.brand}', '${req.body.model}', '${req.body.size}', ${req.body.price});`
-    );
-
-    res.send(response[0]);
     await con.end();
   } catch (e) {
     console.log(e);
