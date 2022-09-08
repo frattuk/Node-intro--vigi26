@@ -16,4 +16,17 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.post("/", async (req, res) => {
+  try {
+    const con = await mysql.createConnection(dbconfig);
+    const response = await con.execute(
+      `INSERT INTO pets (name, dob, client_email) values ('${req.body.name}', '${req.body.dob}', '${req.body.client_email}')`
+    );
+    res.send(response[0]);
+    await con.end();
+  } catch (e) {
+    console.log(e);
+  }
+});
+
 module.exports = router;
