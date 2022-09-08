@@ -3,8 +3,9 @@ const express = require("express");
 const mysql = require("mysql2/promise");
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
-const { dbconfig } = require("../../config");
+const { dbconfig, jwtSecret } = require("../../config");
 
 const router = express.Router();
 
@@ -73,7 +74,6 @@ router.post("/login", async (req, res) => {
         { id: response[0].id, email: response[0].email },
         jwtSecret
       );
-
       res.send({ token });
     } else {
       res.status(400).send({ error: "Incorrect password" });

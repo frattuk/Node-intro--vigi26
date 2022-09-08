@@ -42,17 +42,17 @@
         .catch((error) => console.error(error));
     });
 
-    document.getElementById("books").addEventListener("click", () => {
-      fetch("http://localhost:3000/v1/content", {
-        headers: {
-          authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      })
-        .then((res) => res.json())
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => console.error(error));
-    });
+    // document.getElementById("books").addEventListener("click", () => {
+    //   fetch("http://localhost:3000/v1/content", {
+    //     headers: {
+    //       authorization: `Bearer ${localStorage.getItem("token")}`,
+    //     },
+    //   })
+    //     .then((res) => res.json())
+    //     .then((response) => {
+    //       console.log(response);
+    //     })
+    //     .catch((error) => console.error(error));
+    // });
   </script>
 </html>
